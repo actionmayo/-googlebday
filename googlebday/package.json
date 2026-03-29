@@ -1,0 +1,8 @@
+{
+  "name": "fr3running-birthday-form",
+  "version": "1.0.0",
+  "description": "FR3RUNNING Birthday Party Event Form — Netlify + Google Sheets",
+  "dependencies": {
+    "googleapis": "^140.0.0"
+  }
+}
