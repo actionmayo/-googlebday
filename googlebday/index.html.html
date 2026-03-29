@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FR3RUNNING — Birthday Party Event Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #181818;
+      --border: #2a2a2a;
+      --red: #e02020;
+      --red-dim: #9b1010;
+      --white: #f0f0f0;
+      --muted: #888888;
+      --input-bg: #1e1e1e;
+      --input-border: #333333;
+      --input-focus: #e02020;
+      --label: #aaaaaa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      line-height: 1.4;
+      padding: 32px 16px 64px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--red);
+      padding-bottom: 16px;
+      margin-bottom: 32px;
+    }
+    .header-left { display: flex; flex-direction: column; gap: 2px; }
+    .brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 2px;
+      color: var(--white);
+      line-height: 1;
+    }
+    .brand span { color: var(--red); }
+    .doc-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .header-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      background: var(--red);
+      color: #fff;
+      padding: 4px 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── LAYOUT ── */
+    .form-body { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: var(--red);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    /* ── GRID HELPERS ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+    .span-2 { grid-column: span 2; }
+    .span-full { grid-column: 1 / -1; }
+
+    /* ── FIELD ── */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--label);
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      padding: 8px 10px;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 0;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--input-focus);
+    }
+    .field textarea { resize: vertical; min-height: 72px; }
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+    .field input[type="date"] { color-scheme: dark; }
+
+    /* ── STATUS BADGE ── */
+    .status-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .status-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .status-badge.active { border-color: var(--red); color: var(--red); }
+
+    /* ── CHECKBOX ROW ── */
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+    }
+    .check-row label {
+      font-size: 14px;
+      color: var(--white);
+      cursor: pointer;
+    }
+    .check-row input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--red);
+      cursor: pointer;
+    }
+
+    /* ── STUDENT TABLE ── */
+    .student-table { width: 100%; border-collapse: collapse; }
+    .student-table thead tr {
+      background: #1c1c1c;
+    }
+    .student-table th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--label);
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .student-table td { padding: 4px 6px; border-bottom: 1px solid #1e1e1e; }
+    .student-table td:first-child {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      width: 36px;
+      text-align: center;
+    }
+    .student-table input {
+      background: var(--input-bg);
+      border: 1px solid transparent;
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      padding: 6px 8px;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+      border-radius: 0;
+    }
+    .student-table input:focus { border-color: var(--input-focus); }
+    .student-table input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--red);
+      cursor: pointer;
+    }
+    .student-table .checkbox-cell { text-align: center; width: 80px; }
+
+    /* ── TIP SECTION ── */
+    .tip-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .tip-card {
+      border: 2px solid var(--border);
+      padding: 14px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+    .tip-card input[type="radio"] { display: none; }
+    .tip-card:has(input:checked) {
+      border-color: var(--red);
+      background: rgba(224,32,32,0.07);
+    }
+    .tip-card .tip-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: var(--white);
+      display: block;
+    }
+    .tip-card .tip-amount {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      margin-top: 2px;
+      display: block;
+    }
+    .tip-card .tip-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+      display: block;
+    }
+
+    /* ── FINANCIALS ── */
+    .finance-table { width: 100%; border-collapse: collapse; }
+    .finance-table tr td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+    }
+    .finance-table tr td:first-child {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--label);
+    }
+    .finance-table tr td:last-child {
+      text-align: right;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      color: var(--white);
+    }
+    .finance-table .total-row td {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 1px;
+      border-top: 2px solid var(--red);
+      border-bottom: none;
+      padding-top: 12px;
+      color: var(--white);
+    }
+    .finance-table .total-row td:last-child { color: var(--red); }
+    .balance-neg { color: #ff4444 !important; }
+    .balance-pos { color: #44cc88 !important; }
+
+    /* ── RADIO TOGGLE ── */
+    .radio-group { display: flex; gap: 0; }
+    .radio-option {
+      flex: 1;
+      border: 1px solid var(--border);
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+    .radio-option input { display: none; }
+    .radio-option:has(input:checked) {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* ── SIGNATURE ── */
+    .sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; }
+    .sig-block { display: flex; flex-direction: column; gap: 6px; }
+    .sig-block label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--label);
+    }
+    .sig-line {
+      border-bottom: 1px solid var(--muted);
+      padding-bottom: 32px;
+      width: 100%;
+    }
+    .sig-block input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--input-border);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      padding: 6px 0;
+      outline: none;
+      width: 100%;
+    }
+    .sig-block input:focus { border-bottom-color: var(--red); }
+
+    /* ── PRINT BUTTON ── */
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .btn {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 2px;
+      padding: 10px 28px;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+
+    /* ── TOTALS AUTO-CALC ── */
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+
+    /* ── PRINT ── */
+
+    /* ── ADDON CARDS ── */
+    .addon-card {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+    }
+    .addon-card input[type="checkbox"] { display: none; }
+    .addon-card.selected {
+      border-color: var(--red);
+      background: rgba(224,32,32,0.07);
+    }
+    .addon-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .addon-price {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--red);
+    }
+    .addon-save {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    @media print {
+      body { background: #fff; color: #000; padding: 16px; }
+      .section { border-color: #ccc; background: #fff; }
+      .field input, .field select, .field textarea, .student-table input {
+        background: #fff; color: #000; border-color: #999;
+      }
+      .actions { display: none; }
+      .header { border-bottom-color: #e02020; }
+    }
+
+    @media (max-width: 680px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .span-2 { grid-column: span 1; }
+      .tip-options { grid-template-columns: 1fr 1fr; }
+      .sig-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header" style="max-width:960px;margin:0 auto 32px;">
+  <div class="header-left">
+    <div class="brand">FR3<span>RUNNING</span> Society</div>
+    <div class="doc-title">Birthday Party Event Receipt</div>
+  </div>
+  <div class="header-badge">Internal Use</div>
+</div>
+
+<div class="form-body">
+
+  <!-- ── PARTY DETAILS ── -->
+  <div class="section">
+    <div class="section-title">Party Details</div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Date of Party</label>
+        <input type="date" id="partyDate"/>
+      </div>
+      <div class="field">
+        <label>Time of Party</label>
+        <select id="partyTime">
+          <option value="">-- Select --</option>
+          <option value="Friday 1:00 PM – 3:00 PM">Friday 1:00 PM – 3:00 PM</option>
+          <option value="Friday 6:00 PM – 8:00 PM">Friday 6:00 PM – 8:00 PM</option>
+          <option value="Saturday 4:00 PM – 6:00 PM">Saturday 4:00 PM – 6:00 PM</option>
+          <option value="Sunday 3:00 PM – 5:00 PM">Sunday 3:00 PM – 5:00 PM</option>
+          <option value="Custom">Custom</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Birthday Child</label>
+        <input type="text" id="birthdayChild" placeholder="First & Last Name"/>
+      </div>
+      <div class="field span-2">
+        <label>Lead Guardian(s)</label>
+        <input type="text" id="leadGuardian" placeholder="Full name(s)"/>
+      </div>
+      <div class="field">
+        <label>Age Range</label>
+        <input type="text" id="ageRange" placeholder="e.g. 5–9"/>
+      </div>
+      <div class="field">
+        <label>Party Package</label>
+        <select id="partyPackage" onchange="onPackageChange()">
+          <option value="">-- Select --</option>
+          <option value="800">Up to 12 Ninja Party — $800</option>
+          <option value="1000">Up to 18 Ninja Party — $1,000</option>
+          <option value="1200">Up to 24 Ninja Party — $1,200</option>
+          <option value="1600">Up to 30 Ninja Party — $1,600</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Additional Guests ($75/guest over limit)</label>
+        <input type="number" id="additionalGuests" min="0" value="0" onchange="recalc()" placeholder="# extra guests"/>
+      </div>
+      <div class="field">
+        <label>Lead Coach</label>
+        <input type="text" id="leadCoach" placeholder="Coach name"/>
+      </div>
+      <div class="field">
+        <label>Closing Coach</label>
+        <input type="text" id="closingCoach" placeholder="Coach name"/>
+      </div>
+      <div class="field">
+        <label>Character Coach (if applicable)</label>
+        <input type="text" id="characterCoach" placeholder="Coach name or N/A"/>
+      </div>
+      <div class="field">
+        <label>Birthday Date & Time</label>
+        <input type="text" id="bdayDateTime" placeholder="e.g. May 10, 2025 @ 4:00 PM"/>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── ADD-ONS ── -->
+  <div class="section">
+    <div class="section-title">Add-Ons</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="addonsGrid">
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="Ultimate FR3RUNNING Care Package|1000"/>
+        <span class="addon-name">Ultimate FR3RUNNING Care Package</span>
+        <span class="addon-price">$1,000 <span class="addon-save">*$250 savings*</span></span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="30 Min Extra Ninja Time|100"/>
+        <span class="addon-name">30 Min Extra Ninja Time</span>
+        <span class="addon-price">$100</span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="NERF Ninjas|100"/>
+        <span class="addon-name">NERF Ninjas</span>
+        <span class="addon-price">$100</span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="Themed Party|100"/>
+        <span class="addon-name">Themed Party</span>
+        <span class="addon-price">$100</span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="Supplies On Us|100"/>
+        <span class="addon-name">Supplies On Us</span>
+        <span class="addon-price">$100</span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="Food On Us|250"/>
+        <span class="addon-name">Food On Us</span>
+        <span class="addon-price">$250</span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="Videography Package|300"/>
+        <span class="addon-name">Videography Package</span>
+        <span class="addon-price">$300</span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="Service On Us|100"/>
+        <span class="addon-name">Service On Us (Setup & Teardown)</span>
+        <span class="addon-price">$100</span>
+      </label>
+      <label class="addon-card" onclick="toggleAddon(this)">
+        <input type="checkbox" name="addon" value="Baby Zone|100"/>
+        <span class="addon-name">Baby Zone</span>
+        <span class="addon-price">$100</span>
+      </label>
+    </div>
+    <div style="margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">
+      Add-Ons Total: <span id="addonsTotal" style="color:var(--white);">$0.00</span>
+    </div>
+  </div>
+
+  <!-- ── WORKFLOW STATUS ── -->
+  <div class="section">
+    <div class="section-title">Workflow Status</div>
+    <div class="grid-3">
+      <div class="field">
+        <label># of Students Booked</label>
+        <input type="number" id="studentsBooked" min="0" value="0" onchange="recalc()"/>
+      </div>
+      <div class="field">
+        <label># of Waivers Signed</label>
+        <input type="number" id="waiversSigned" min="0" value="0"/>
+      </div>
+      <div class="field">
+        <label># of Coaches Attending</label>
+        <input type="number" id="coachCount" min="0" value="0" onchange="recalc()"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GAMES / REQUESTS ── -->
+  <div class="section">
+    <div class="section-title">Programming & Requests</div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Games to be Played</label>
+        <textarea id="gamesToPlay" placeholder="List games here..."></textarea>
+      </div>
+      <div class="field">
+        <label>Parent Requests</label>
+        <textarea id="parentRequests" placeholder="Any specific requests from parents..."></textarea>
+      </div>
+      <div class="field">
+        <label>Special Requests</label>
+        <textarea id="specialRequests" placeholder="Allergies, themes, logistics..."></textarea>
+      </div>
+      <div class="field">
+        <label>Additional Notes</label>
+        <textarea id="addNotes" placeholder="Internal notes..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STUDENT LIST ── -->
+  <div class="section">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+      <div class="section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0;">Student List</div>
+      <div class="field" style="flex-direction:row;align-items:center;gap:10px;margin:0;">
+        <label style="white-space:nowrap;">Number of Students</label>
+        <select id="studentCount" onchange="renderStudents()" style="background:var(--input-bg);border:1px solid var(--input-border);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:15px;padding:7px 28px 7px 10px;outline:none;appearance:none;-webkit-appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 10px center;min-width:90px;border-radius:0;">
+          <option value="0">-- Select --</option>
+        </select>
+      </div>
+    </div>
+    <table class="student-table" id="studentTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Name</th>
+          <th>Age</th>
+          <th>Guardian</th>
+          <th class="checkbox-cell">Waiver</th>
+          <th class="checkbox-cell">Checked In</th>
+        </tr>
+      </thead>
+      <tbody id="studentBody"></tbody>
+    </table>
+    <div id="studentPlaceholder" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);padding:12px 0;">Select a number above to show student rows.</div>
+  </div>
+
+  <!-- ── FINANCIALS ── -->
+  <div class="section">
+    <div class="section-title">Financials</div>
+    <div class="grid-2">
+      <div>
+        <div class="grid-2" style="margin-bottom:16px;">
+          <div class="field">
+            <label>Party Package Price ($)</label>
+            <input type="number" id="packagePrice" min="0" step="0.01" value="0" onchange="recalc()"/>
+          </div>
+          <div class="field">
+            <label>Add-On Price ($)</label>
+            <input type="number" id="addOnPrice" min="0" step="0.01" value="0" onchange="recalc()"/>
+          </div>
+          <div class="field">
+            <label>Deposit Paid ($)</label>
+            <input type="number" id="depositPaid" min="0" step="0.01" value="275.00" onchange="recalc()"/>
+          </div>
+          <div class="field">
+            <label>Member Credit ($)</label>
+            <input type="number" id="memberCredit" min="0" step="0.01" value="0" onchange="recalc()" placeholder="0.00"/>
+          </div>
+          <div class="field">
+            <label>Total Tip Included ($)</label>
+            <input type="number" id="tipTotal" min="0" step="0.01" value="0" onchange="recalc()"/>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table class="finance-table">
+          <tr>
+            <td>Party Package</td>
+            <td id="disp-package">$0.00</td>
+          </tr>
+          <tr>
+            <td>Add-On Total</td>
+            <td id="disp-addon">$0.00</td>
+          </tr>
+          <tr>
+            <td>Party + Add-Ons</td>
+            <td id="disp-subtotal">$0.00</td>
+          </tr>
+          <tr>
+            <td>Deposit Paid</td>
+            <td id="disp-deposit">$275.00</td>
+          </tr>
+          <tr id="row-credit" style="display:none;">
+            <td>Member Credit</td>
+            <td id="disp-credit" style="color:#44cc88;">-$0.00</td>
+          </tr>
+          <tr>
+            <td>Remaining Balance</td>
+            <td id="disp-balance" class="balance-neg">-$275.00</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total Paid Today</td>
+            <td id="disp-total">$_______</td>
+          </tr>
+        </table>
+        <div class="field" style="margin-top:12px;">
+          <label>Total Amount Paid Today ($)</label>
+          <input type="number" id="totalPaidToday" min="0" step="0.01" placeholder="Enter amount" onchange="recalc()"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card on file -->
+    <div style="margin-top:16px;">
+      <div class="doc-title" style="margin-bottom:8px;">Use Card on File?</div>
+      <div class="radio-group" style="max-width:200px;">
+        <label class="radio-option">
+          <input type="radio" name="cardOnFile" value="yes"/> YES
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="cardOnFile" value="no" checked/> NO
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TIP ── -->
+  <div class="section">
+    <div class="section-title">Tip — Goes Directly to Coaches</div>
+    <div class="tip-options">
+      <label class="tip-card">
+        <input type="radio" name="tipOption" value="30" onclick="setTip(30)"/>
+        <span class="tip-label">THANKS</span>
+        <span class="tip-amount">$30 / coach</span>
+      </label>
+      <label class="tip-card">
+        <input type="radio" name="tipOption" value="60" onclick="setTip(60)"/>
+        <span class="tip-label">GREAT</span>
+        <span class="tip-amount">$60 / coach</span>
+      </label>
+      <label class="tip-card">
+        <input type="radio" name="tipOption" value="100" onclick="setTip(100)"/>
+        <span class="tip-label">UNREAL</span>
+        <span class="tip-amount">$100 / coach</span>
+      </label>
+      <label class="tip-card">
+        <input type="radio" name="tipOption" value="custom" onclick="setTip(0)"/>
+        <span class="tip-label">OTHER</span>
+        <span class="tip-amount" style="color:var(--muted);">Custom Amount</span>
+        <span class="tip-sub">
+          <input type="number" id="customTipPer" min="0" step="1" placeholder="$ / coach"
+            style="background:#1a1a1a;border:none;border-bottom:1px solid var(--border);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:4px 4px;width:90px;outline:none;margin-top:6px;"
+            onclick="event.stopPropagation()" oninput="setTip(parseFloat(this.value)||0)"/>
+        </span>
+      </label>
+    </div>
+    <div id="tipSummary" style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);min-height:18px;"></div>
+  </div>
+
+  <!-- ── SIGNATURES ── -->
+  <div class="section">
+    <div class="section-title">Signatures</div>
+    <div class="sig-row">
+      <div class="sig-block">
+        <label>Lead Guardian Signature</label>
+        <input type="text" id="sigGuardian" placeholder="Type name to sign"/>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">X _____________________________</div>
+      </div>
+      <div class="sig-block">
+        <label>Birthday Liaison or Coordinator</label>
+        <input type="text" id="sigLiaison" placeholder="Type name to sign"/>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px;">X _____________________________</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACTIONS ── -->
+  <div id="submitMsg" style="display:none;max-width:960px;margin:0 auto 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;padding:10px 14px;border:1px solid var(--border);"></div>
+  <div class="actions">
+    <button class="btn btn-outline" onclick="clearForm()">Clear Form</button>
+    <button class="btn btn-outline" onclick="window.print()">Print / PDF</button>
+    <button class="btn btn-primary" id="submitBtn" onclick="submitToSheets()">Submit to Sheets</button>
+  </div>
+
+</div>
+
+<script>
+  // Populate dropdown 1–31
+  const countSel = document.getElementById('studentCount');
+  for (let i = 1; i <= 30; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    countSel.appendChild(opt);
+  }
+
+  function renderStudents() {
+    const n = parseInt(document.getElementById('studentCount').value) || 0;
+    const tbody = document.getElementById('studentBody');
+    const table = document.getElementById('studentTable');
+    const placeholder = document.getElementById('studentPlaceholder');
+
+    tbody.innerHTML = '';
+
+    if (n === 0) {
+      table.style.display = 'none';
+      placeholder.style.display = 'block';
+      return;
+    }
+
+    table.style.display = 'table';
+    placeholder.style.display = 'none';
+
+    for (let i = 1; i <= n; i++) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${i}</td>
+        <td><input type="text" placeholder="Student name"/></td>
+        <td><input type="number" min="1" max="18" style="width:60px;" placeholder="Age"/></td>
+        <td><input type="text" placeholder="Guardian name"/></td>
+        <td class="checkbox-cell"><input type="checkbox"/></td>
+        <td class="checkbox-cell"><input type="checkbox"/></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    // also sync studentsBooked field
+    document.getElementById('studentsBooked').value = n;
+    recalc();
+  }
+
+  // Package prices
+  const PACKAGE_PRICES = { '800': 800, '1000': 1000, '1200': 1200, '1600': 1600 };
+
+  function onPackageChange() {
+    const val = document.getElementById('partyPackage').value;
+    const price = PACKAGE_PRICES[val] || 0;
+    document.getElementById('packagePrice').value = price > 0 ? price.toFixed(2) : '';
+    recalc();
+  }
+
+  function toggleAddon(card) {
+    const cb = card.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+    card.classList.toggle('selected', cb.checked);
+    recalcAddons();
+    recalc();
+  }
+
+  function recalcAddons() {
+    const checked = document.querySelectorAll('input[name="addon"]:checked');
+    let total = 0;
+    checked.forEach(cb => {
+      const price = parseFloat(cb.value.split('|')[1]) || 0;
+      total += price;
+    });
+    document.getElementById('addonsTotal').textContent = fmt(total);
+    document.getElementById('addOnPrice').value = total > 0 ? total.toFixed(2) : '0';
+    return total;
+  }
+
+  function getSelectedAddons() {
+    const checked = document.querySelectorAll('input[name="addon"]:checked');
+    return Array.from(checked).map(cb => cb.value.split('|')[0]).join(', ');
+  }
+
+  function fmt(n) {
+    return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function recalc() {
+    const pkg    = parseFloat(document.getElementById('packagePrice').value) || 0;
+    const addon  = parseFloat(document.getElementById('addOnPrice').value) || 0;
+    const extra  = (parseInt(document.getElementById('additionalGuests')?.value) || 0) * 75;
+    const dep    = parseFloat(document.getElementById('depositPaid').value) || 0;
+    const credit = parseFloat(document.getElementById('memberCredit').value) || 0;
+    const paid   = parseFloat(document.getElementById('totalPaidToday').value) || 0;
+    const coaches= parseInt(document.getElementById('coachCount').value) || 0;
+
+    const subtotal = pkg + addon + extra;
+    const balance  = subtotal - dep - credit;
+
+    document.getElementById('disp-package').textContent  = fmt(pkg);
+    document.getElementById('disp-addon').textContent    = fmt(addon);
+    document.getElementById('disp-subtotal').textContent = fmt(subtotal);
+    document.getElementById('disp-deposit').textContent  = fmt(dep);
+
+    // Member credit row — show only if > 0
+    const creditRow = document.getElementById('row-credit');
+    const creditEl  = document.getElementById('disp-credit');
+    if (credit > 0) {
+      creditRow.style.display = '';
+      creditEl.textContent = '-' + fmt(credit);
+    } else {
+      creditRow.style.display = 'none';
+    }
+
+    const balEl = document.getElementById('disp-balance');
+    balEl.textContent = (balance < 0 ? '-' : '') + fmt(Math.abs(balance));
+    balEl.className = balance < 0 ? 'balance-neg' : 'balance-pos';
+
+    const totalEl = document.getElementById('disp-total');
+    totalEl.textContent = paid > 0 ? fmt(paid) : '$_______';
+
+    updateTipSummary(coaches);
+  }
+
+  function setTip(perCoach) {
+    const coaches = parseInt(document.getElementById('coachCount').value) || 0;
+    const total   = perCoach * coaches;
+    document.getElementById('tipTotal').value = total > 0 ? total.toFixed(2) : '';
+    updateTipSummary(coaches, perCoach);
+  }
+
+  function updateTipSummary(coaches, perCoach) {
+    const tipEl = document.getElementById('tipSummary');
+    if (!perCoach) {
+      const t = parseFloat(document.getElementById('tipTotal').value) || 0;
+      perCoach = coaches > 0 ? t / coaches : 0;
+    }
+    if (coaches > 0 && perCoach > 0) {
+      tipEl.textContent = `${coaches} coach${coaches > 1 ? 'es' : ''} × $${perCoach.toFixed(0)} = Total Tip: $${(coaches * perCoach).toFixed(2)}`;
+    } else {
+      tipEl.textContent = '';
+    }
+  }
+
+  function clearForm() {
+    if (!confirm('Clear all form data?')) return;
+    document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea, select').forEach(el => {
+      if (el.type === 'number') el.value = '';
+      else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    });
+    document.querySelectorAll('input[type="checkbox"]').forEach(el => el.checked = false);
+    document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+    document.getElementById('depositPaid').value = '275.00';
+    document.getElementById('coachCount').value = '0';
+    document.getElementById('studentsBooked').value = '0';
+    document.getElementById('waiversSigned').value = '0';
+    document.getElementById('additionalGuests').value = '0';
+    document.getElementById('memberCredit').value = '0';
+    document.getElementById('tipSummary').textContent = '';
+    document.querySelectorAll('.addon-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('addonsTotal').textContent = '$0.00';
+    recalc();
+  }
+
+  // Init
+  recalc();
+
+  // ── Submit to Google Sheets via Netlify Function ──────────────────────────
+  async function submitToSheets() {
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('submitMsg');
+
+    // Collect students
+    const rows = document.querySelectorAll('#studentBody tr');
+    const students = Array.from(rows).map(tr => {
+      const inputs = tr.querySelectorAll('input');
+      return {
+        name:      inputs[0]?.value || '',
+        age:       inputs[1]?.value || '',
+        guardian:  inputs[2]?.value || '',
+        waiver:    inputs[3]?.checked || false,
+        checkedIn: inputs[4]?.checked || false,
+      };
+    });
+
+    // Collect tip per coach
+    const checkedTip = document.querySelector('input[name="tipOption"]:checked');
+    const tipPerCoach = checkedTip?.value === 'custom'
+      ? (document.getElementById('customTipPer')?.value || '')
+      : (checkedTip?.value || '');
+
+    const payload = {
+      partyDate:        document.getElementById('partyDate')?.value,
+      partyTime:        document.getElementById('partyTime')?.value,
+      birthdayChild:    document.getElementById('birthdayChild')?.value,
+      leadGuardian:     document.getElementById('leadGuardian')?.value,
+      partyPackage:     document.getElementById('partyPackage')?.value,
+      addOn:            getSelectedAddons(),
+      ageRange:         document.getElementById('ageRange')?.value,
+      leadCoach:        document.getElementById('leadCoach')?.value,
+      closingCoach:     document.getElementById('closingCoach')?.value,
+      characterCoach:   document.getElementById('characterCoach')?.value,
+      bdayDateTime:     document.getElementById('bdayDateTime')?.value,
+      memberCredit:     document.getElementById('memberCredit')?.value,
+      studentsBooked:   document.getElementById('studentsBooked')?.value,
+      waiversSigned:    document.getElementById('waiversSigned')?.value,
+      coachCount:       document.getElementById('coachCount')?.value,
+      gamesToPlay:      document.getElementById('gamesToPlay')?.value,
+      parentRequests:   document.getElementById('parentRequests')?.value,
+      specialRequests:  document.getElementById('specialRequests')?.value,
+      addNotes:         document.getElementById('addNotes')?.value,
+      packagePrice:     document.getElementById('packagePrice')?.value,
+      additionalGuests: document.getElementById('additionalGuests')?.value,
+      addOnPrice:       document.getElementById('addOnPrice')?.value,
+      depositPaid:      document.getElementById('depositPaid')?.value,
+      remainingBalance: document.getElementById('disp-balance')?.textContent,
+      totalPaidToday:   document.getElementById('totalPaidToday')?.value,
+      cardOnFile:       document.querySelector('input[name="cardOnFile"]:checked')?.value || '',
+      tipPerCoach,
+      tipTotal:         document.getElementById('tipTotal')?.value,
+      sigGuardian:      document.getElementById('sigGuardian')?.value,
+      sigLiaison:       document.getElementById('sigLiaison')?.value,
+      students,
+    };
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+    msg.style.display = 'none';
+
+    try {
+      const res = await fetch('/.netlify/functions/submitbirthday', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        msg.style.display = 'block';
+        msg.style.borderColor = '#44cc88';
+        msg.style.color = '#44cc88';
+        msg.textContent = 'Submitted. Row added to Google Sheets.';
+        btn.textContent = 'Submitted';
+      } else {
+        throw new Error(result.error || 'Unknown error');
+      }
+    } catch (err) {
+      msg.style.display = 'block';
+      msg.style.borderColor = '#ff4444';
+      msg.style.color = '#ff4444';
+      msg.textContent = 'Submit failed: ' + err.message;
+      btn.disabled = false;
+      btn.textContent = 'Submit to Sheets';
+    }
+  }
+</script>
+</body>
+</html>
